@@ -1,2 +1,2 @@
 #!/bin/bash
-php -S 0.0.0.0:3434 index.php -c php.ini
+php -d post_max_size=200M -d upload_max_filesize=200M -S 0.0.0.0:3434 index.php
