@@ -25,13 +25,13 @@ if(isset($_FILES)){
 if (isset($_GET['download'])) {
 
     //creates safe file location
-    $filepath = "files/" . basename($_GET['download']);
+    $filepath = "files/" . basename(base64_decode($_GET['download']));
 
     //checks if the file exists and it is in fact a file.
     if (file_exists($filepath) && is_file($filepath)) {
         header('Content-Description: File Transfer');
         header('Content-Type: application/octet-stream');
-        header('Content-Disposition: attachment; filename="' . basename($_GET['download']) . '"');
+        header('Content-Disposition: attachment; filename="' . basename(base64_decode($_GET['download'])) . '"');
         header('Content-Length: ' . filesize($filepath));
         
         ob_clean();
@@ -300,8 +300,8 @@ if (isset($_GET['download'])) {
                     foreach($files as $file){
                         ?>
                         <tr>
-                            <td><?php print $file->getFilename() ?></td>
-                            <td><a href="?download=<?php print $file->getFilename() ?>" class="file-link">Download</a></td>
+                            <td><?php print htmlspecialchars($file->getFilename()) ?></td>
+                            <td><a href="?download=<?php print base64_encode($file->getFilename()) ?>" class="file-link">Download</a></td>
                         </tr>
                         <?php
                     }
